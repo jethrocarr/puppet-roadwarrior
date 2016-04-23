@@ -174,7 +174,9 @@ especially in regard to trusting the certs. Also ensure you are on MacOS 10.11
    and find the CA under "Certificates". Now mark it as "Always Trusted".
 
 3. These first two steps are CRITICAL, if either the client cert or CA cert are not
-   trusted, the VPN will fail to connect without any visible message.
+   trusted, the VPN will fail to connect without any visible message. Sometimes it
+   can be hard to find where the certs are in Keychain access, recommend using the
+   search box to search based on the vpn name (eg "vpn.example.com").
 
 4. Access `System Preferences -> Network` and add a new VPN interface, making sure to
    select IKEv2 specifically.
