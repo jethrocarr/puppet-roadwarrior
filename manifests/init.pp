@@ -16,6 +16,11 @@ class roadwarrior (
 ) inherits ::roadwarrior::params {
 
 
+  # Compat checks
+  if ($::operatingsystem != "Debian") {
+    fail("Sorry, only Debian distributions are supported by the roadwarrior module at this time. PRs welcome")
+  }
+
   # Ensure resources is brilliant witchcraft, we can install all the StrongSwan
   # dependencies in a single run and avoid double-definitions if they're already
   # defined elsewhere.

@@ -7,8 +7,20 @@
   "source": "https://github.com/jethrocarr/puppet-roadwarrior",
   "project_page": "https://github.com/jethrocarr/puppet-roadwarrior",
   "issues_url": "https://github.com/jethrocarr/puppet-roadwarrior/issues",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [ "8.4" ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [ "16.04" ]
+    }
+  ],
   "dependencies": [
-    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"},
+    {"name":"puppetlabs-firewall","version_requirement":">= 1.0.0"},
+    {"name":"thias-sysctl","version_requirement":">= 1.0.0"}
   ]
 }
 

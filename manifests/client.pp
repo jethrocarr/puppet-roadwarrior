@@ -44,8 +44,6 @@ define roadwarrior::client (
   exec { "generate_client_cert_${vpn_client}":
     command => "ipsec pki --pub --in ${cert_dir}/private/client_${vpn_client}Key.pem --type rsa | ipsec pki --issue --lifetime ${cert_lifespan} --cacert ${cert_dir}/cacerts/strongswanCert.pem --cakey ${cert_dir}/private/strongswanKey.pem --dn \"C=NZ, O=roadwarrior, CN=${vpn_client}@${vpn_name}\" --san ${vpn_client}@${vpn_name} --outform pem > ${cert_dir}/certs/client_${vpn_client}Cert.pem",
     creates => "${cert_dir}/certs/client_${vpn_client}Cert.pem",
-    # TODO: Probably don't need to reload for new certs?
-    #notify  => Service[$service_strongswan], # Make sure the server is restarted with the right cert (if needed)
   } ->
 
 
