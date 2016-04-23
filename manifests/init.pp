@@ -42,6 +42,16 @@ class roadwarrior (
     notify  => Service[$service_strongswan]
   }
 
+  # As we are doing cert authentication, the secrets file simply needs the
+  # private key of the VPN host listed.
+  file { '/etc/ipsec.secrets':
+    ensure  => file,
+    mode    => '0600',
+    owner   => 'root',
+    group   => 'root',
+    content => template('roadwarrior/ipsec.secrets.erb'),
+    notify  => Service[$service_strongswan]
+  }
 
   # Charon Configuration File
   # TODO: Adjustments to Charon config for timeouts, etc?
