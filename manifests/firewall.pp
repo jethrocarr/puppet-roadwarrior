@@ -2,8 +2,8 @@
 # VPN connections and to also allow IP forwarding using (thias/sysctl).
 
 class roadwarrior::firewall (
-  $manage_firewall_v4 = $roadwarrior::manage_firewall_v4,
-  $manage_firewall_v6 = $roadwarrior::manage_firewall_v6,
+  $manage_firewall_v4 = $::roadwarrior::manage_firewall_v4,
+  $manage_firewall_v6 = $::roadwarrior::manage_firewall_v6,
 ) {
 
   # IPv4
