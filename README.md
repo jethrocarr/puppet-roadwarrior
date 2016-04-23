@@ -1,7 +1,5 @@
 # puppet-roadwarrior
 
-WARNING: WORK IN PROGRESS, THERE IS NO GOD WILLING TO HELP YOU IF YOU USE THIS.
-
 The year is 2016. Giant clouds rule the internet. Microsoft supports linux. Yet
 in this strange new world, not all is well. Your home network is still stuck
 behind an IPv4 NAT gateway. And your apps still haven't all figured out how to
@@ -144,6 +142,23 @@ the settings screen.
 
 If ondemand has been enabled, the VPN should automatically connect if all
 conditions are appropiate.
+
+
+## MacOS Clients
+
+1. Import the `.p12` file generated for the client (eg "examplephone.p12").
+
+2. Configure via `System Preferences -> Network` by adding a new VPN interface
+   and selecting IKEv2. You must then:
+
+3. Populate `Server Address` and `Remote ID` with the VPN Name you're using and
+   set the local ID to `client@vpnname` where client is the name of the client
+   resource defined (eg "examplephone" and vpnname is the main `vpn_name`
+   defined for the `roadwarrior` class.
+
+4. Under `Authentication Settings` select certificate authentication using the 
+   one we imported before.
+
 
 
 
