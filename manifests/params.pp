@@ -36,6 +36,14 @@ class roadwarrior::params {
   # Certificate Params.
   $cert_dir        = '/etc/ipsec.d'  # This shouldn't be changed unless to suit packaging differences on distros
   $cert_lifespan   = '3650'          # Expiry of the certs in days (3650 == 10 years)
+
+
+  # Default password for PKCS12 files. This is required by the format so must
+  # be set to something - it's perfectly OK to leave it as "password" if
+  # desired.  Note that any clients will have access to this password, so don't
+  # use an existing password, or they could recover it from the mobile config
+  # and use it to log into things!!
+  $cert_password   = 'password'
 }
 
 # vi:smartindent:tabstop=2:shiftwidth=2:expandtab:
