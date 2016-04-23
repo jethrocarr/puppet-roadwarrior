@@ -17,8 +17,8 @@ class roadwarrior (
 
 
   # Compat checks
-  if ($::operatingsystem != "Debian") {
-    fail("Sorry, only Debian distributions are supported by the roadwarrior module at this time. PRs welcome")
+  if ($::operatingsystem != "Debian" and $::operatingsystem != "Ubuntu") {
+    fail("Sorry, only Debian or Ubuntu distributions are supported by the roadwarrior module at this time. PRs welcome")
   }
 
   # Ensure resources is brilliant witchcraft, we can install all the StrongSwan
