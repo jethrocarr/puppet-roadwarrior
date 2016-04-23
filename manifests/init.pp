@@ -10,6 +10,8 @@ class roadwarrior (
   $vpn_range            = $roadwarrior::params::vpn_range,
   $vpn_route            = $roadwarrior::params::vpn_route,
   $debug_logging        = $roadwarrior::params::debug_logging,
+  $cert_dir             = $roadwarrior::params::cert_dir,
+  $cert_lifespan        = $roadwarrior::params::cert_lifespan,
 ) inherits ::roadwarrior::params {
 
 
@@ -48,6 +50,35 @@ class roadwarrior (
   if ($manage_firewall_v4 or $manage_firewall_v6) {
     include ::roadwarrior::firewall
   }
+
+
+  # Generate CA key & cert
+  exec { 'generate_ca_key':
+    command  => "ipsec pki --gen --type rsa --size 4096 --outform pem > ${cert_dir}/private/strongswanKey.pem",
+    creates  => "${cert_dir}/private/strongswanKey.pem",
+    path     => '/bin:/sbin:/usr/bin:/usr/sbin',
+    requires => File['/etc/ipsec.conf'],
+  } ->
+
+  exec { 'generate_ca_cert':
+    command => "ipsec pki --self --ca lifetime ${cert_lifespan} --in ${cert_dir}/private/strongswanKey.pem --type rsa --dn \"C=NZ, O=roadwarrior, CN=${vpn_name} CA\" --outform pem > ${cert_dir}/cacerts/strongswanCert.pem",
+    creates  => "${cert_dir}/cacerts/strongswanCert.pem",
+    path     => '/bin:/sbin:/usr/bin:/usr/sbin',
+  } ->
+
+  # Generate VPN host key & cert
+  exec { 'generate_host_key':
+    command  => "ipsec pki --gen --type rsa --size 2048 --outform pem > ${cert_dir}/private/vpnHostKey.pem",
+    creates  => "${cert_dir}/private/vpnHostKey.pem",
+    path     => '/bin:/sbin:/usr/bin:/usr/sbin',
+  } ->
+
+  exec { 'generate_host_cert':
+    command  => "ipsec pki --pub --in ${cert_dir}/private/vpnHostKey.pem --type rsa | ipsec pki --issue --lifetime ${cert_lifespan} --cacert ${cert_dir}/cacerts/strongswanCert.pem --cakey ${cert_dir}/private/strongswanKey.pem --dn \"C=NZ, O=roadwarrior, CN=${vpn_name}\" --san ${vpn_name} --flag serverAuth --flag ikeIntermediate --outform pem > ${cert_dir}/certs/vpnHostCert.pem",
+    creates  => "${cert_dir}/certs/vpnHostCert.pem",
+    path     => '/bin:/sbin:/usr/bin:/usr/sbin',
+  }
+
 
 
 }

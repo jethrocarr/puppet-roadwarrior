@@ -32,6 +32,10 @@ class roadwarrior::params {
 
   # Debug logging - Enabled additional log information
   $debug_logging = true
+
+  # Certificate Params.
+  $cert_dir        = '/etc/ipsec.d'  # This shouldn't be changed unless to suit packaging differences on distros
+  $cert_lifespan   = '3650'          # Expiry of the certs in days (3650 == 10 years)
 }
 
 # vi:smartindent:tabstop=2:shiftwidth=2:expandtab:
