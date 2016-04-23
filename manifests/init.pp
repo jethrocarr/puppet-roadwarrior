@@ -96,7 +96,7 @@ class roadwarrior (
   } ->
 
   exec { 'generate_host_cert':
-    command => "ipsec pki --pub --in ${cert_dir}/private/vpnHostKey.pem --type rsa | ipsec pki --digest sha256 --issue --lifetime ${cert_lifespan} --cacert ${cert_dir}/cacerts/strongswanCert.pem --cakey ${cert_dir}/private/strongswanKey.pem --dn \"C=NZ, O=roadwarrior, CN=${vpn_name}\" --san ${vpn_name} --flag serverAuth --flag ikeIntermediate --outform pem > ${cert_dir}/certs/vpnHostCert.pem",
+    command => "ipsec pki --pub --in ${cert_dir}/private/vpnHostKey.pem --type rsa | ipsec pki --issue --digest sha256 --lifetime ${cert_lifespan} --cacert ${cert_dir}/cacerts/strongswanCert.pem --cakey ${cert_dir}/private/strongswanKey.pem --dn \"C=NZ, O=roadwarrior, CN=${vpn_name}\" --san ${vpn_name} --flag serverAuth --flag ikeIntermediate --outform pem > ${cert_dir}/certs/vpnHostCert.pem",
     creates => "${cert_dir}/certs/vpnHostCert.pem",
     notify  => Service[$service_strongswan], # Make sure the server is restarted with the right cert (if needed)
   } ->
