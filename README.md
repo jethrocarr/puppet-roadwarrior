@@ -36,12 +36,18 @@ Tested and confirmed on:
 * iOS 9 [Client]
 
 
-This module *should* work on any OS released in 2015-2016 onwards, but many
+The VPN *should* work on any OS released in 2015-2016 onwards, but many
 earlier OS releases didn't ship with IKEv2 VPN support. The following are
-known minimum versions:
+known minimum versions for working clients:
 
-* MacOS - minimum of 10.11 (El Capitan)
 * iOS - minimum of 9
+
+
+The following are confirmed as not working:
+
+* MacOS 10.11 (El Capitan) - This should work, so we're debugging the config
+  further, it could be that MacOS is buggy or needs some "special love" in the
+  configuration files.
 
 
 # Usage
@@ -145,6 +151,9 @@ conditions are appropiate.
 
 
 ## MacOS Clients
+
+WARNING: MacOS clients not currently working properly, need to spend some time
+debugging this further. This warning will be removed once we validate.
 
 1. Import the `.p12` file generated for the client (eg "examplephone.p12").
 
