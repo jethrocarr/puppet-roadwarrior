@@ -35,7 +35,8 @@ Tested and confirmed on:
 
 * Debian 8 [Server]
 * Ubuntu 16.04 [Server]
-* iOS 9 [Client]
+* iOS 9.3.1 [Client]
+* MacOS X 10.11.4 [Client]
 
 
 The VPN *should* work on any OS released in 2015-2016 onwards, but many
@@ -43,7 +44,7 @@ earlier OS releases didn't ship with IKEv2 VPN support. The following are
 known minimum versions for working clients:
 
 * iOS 9+
-* MacOS 10.11 (El Capitan)
+* MacOS X 10.11 (El Capitan)
 
 
 
