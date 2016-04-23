@@ -108,13 +108,13 @@ define roadwarrior::client (
 
   # Insert CA cert
   exec { 'insert_ca_cert':
-    command => "awk '/%%CERT_CA_DER%%/ { system ( \"base64 ${cert_dir}/cacerts/strongswanCert.der\" ) } !/%%CERT_CA_DER%%/ { print; }' ${cert_dir}/dist/${vpn_client}/ios-${vpn_client}.mobileconfig",
+    command => "awk '/%%CERT_CA_DER%%/ { system ( \"base64 ${cert_dir}/cacerts/strongswanCert.der\" ) } !/%%CERT_CA_DER%%/ { print; }' ${cert_dir}/dist/${vpn_client}/ios-${vpn_client}.mobileconfig | sponge ${cert_dir}/dist/${vpn_client}/ios-${vpn_client}.mobileconfig",
     onlyif  => "grep -q '%%CERT_CA_DER%%' ${cert_dir}/dist/${vpn_client}/ios-${vpn_client}.mobileconfig",
   } ->
 
   # PKCS12 (Client cert + key)
   exec { 'insert_pkcs12':
-    command => "awk '/%%CERT_PKCS12%%/ { system ( \"base64 ${cert_dir}/dist/${vpn_client}/${vpn_client}.p12\" ) } !/%%CERT_PKCS12%%/ { print; }' ${cert_dir}/dist/${vpn_client}/ios-${vpn_client}.mobileconfig",
+    command => "awk '/%%CERT_PKCS12%%/ { system ( \"base64 ${cert_dir}/dist/${vpn_client}/${vpn_client}.p12\" ) } !/%%CERT_PKCS12%%/ { print; }' ${cert_dir}/dist/${vpn_client}/ios-${vpn_client}.mobileconfig | sponge ${cert_dir}/dist/${vpn_client}/ios-${vpn_client}.mobileconfig",
     onlyif  => "grep -q '%%CERT_PKCS12%%' ${cert_dir}/dist/${vpn_client}/ios-${vpn_client}.mobileconfig",
   }
 
