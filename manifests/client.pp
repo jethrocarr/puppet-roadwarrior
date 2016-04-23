@@ -36,12 +36,12 @@ define roadwarrior::client (
   ## Generate the client key/cert
 
   # Using the CA cert built by the main class, build a client cert and key that we can use on their device.
-  exec { 'generate_client_key':
+  exec { "generate_client_key_${vpn_client}":
     command  => "ipsec pki --gen --type rsa --size 2048 --outform pem > ${cert_dir}/private/client_${vpn_client}Key.pem",
     creates  => "${cert_dir}/private/client_${vpn_client}Key.pem",
   } ->
 
-  exec { 'generate_client_cert':
+  exec { "generate_client_cert_${vpn_client}":
     command => "ipsec pki --pub --in ${cert_dir}/private/client_${vpn_client}Key.pem --type rsa | ipsec pki --issue --lifetime ${cert_lifespan} --cacert ${cert_dir}/cacerts/strongswanCert.pem --cakey ${cert_dir}/private/strongswanKey.pem --dn \"C=NZ, O=roadwarrior, CN=${vpn_client}@${vpn_name}\" --san ${vpn_client}@${vpn_name} --outform pem > ${cert_dir}/certs/client_${vpn_client}Cert.pem",
     creates => "${cert_dir}/certs/client_${vpn_client}Cert.pem",
     # TODO: Probably don't need to reload for new certs?
@@ -61,29 +61,29 @@ define roadwarrior::client (
   } ->
 
   # Copy the certs/key to the dist directory for easy packaging/distribution
-  exec { 'dist_client_cert':
+  exec { "dist_client_cert_${vpn_client}":
     command => "cp ${cert_dir}/certs/client_${vpn_client}Cert.pem ${cert_dir}/dist/${vpn_client}/${vpn_client}Cert.pem",
     creates => "${cert_dir}/dist/${vpn_client}/${vpn_client}Cert.pem"
   } ->
 
-  exec { 'dist_client_key':
+  exec { "dist_client_key_${vpn_client}":
     command => "cp ${cert_dir}/private/client_${vpn_client}Key.pem ${cert_dir}/dist/${vpn_client}/${vpn_client}Key.pem",
     creates => "${cert_dir}/dist/${vpn_client}/${vpn_client}Key.pem"
   } ->
 
-  exec { 'dist_ca_cert_pem':
+  exec { "dist_ca_cert_pem_${vpn_client}":
     command => "cp ${cert_dir}/cacerts/strongswanCert.pem ${cert_dir}/dist/${vpn_client}/CACert.pem",
     creates => "${cert_dir}/dist/${vpn_client}/CACert.pem"
   } ->
 
-  exec { 'dist_ca_cert_der':
+  exec { "dist_ca_cert_der_${vpn_client}":
     command => "cp ${cert_dir}/cacerts/strongswanCert.der ${cert_dir}/dist/${vpn_client}/CACert.der",
     creates => "${cert_dir}/dist/${vpn_client}/CACert.der"
   } ->
 
   # Whilst not needed by StrongSwan itself, generate a PKCS12 (.p12) file with the
   # combined cert and key, using $cert_password as the container password.
-  exec { 'generate_client_pkcs12':
+  exec { "generate_client_pkcs12_${vpn_client}":
     command => "openssl pkcs12 -export -inkey ${cert_dir}/private/client_${vpn_client}Key.pem -in ${cert_dir}/certs/client_${vpn_client}Cert.pem -name \"${vpn_client}\" -certfile ${cert_dir}/cacerts/strongswanCert.pem -caname \"${vpn_name} CA\" -password \"pass:${cert_password}\" -out ${cert_dir}/dist/${vpn_client}/${vpn_client}.p12",
     creates => "${cert_dir}/dist/${vpn_client}/${vpn_client}.p12",
   } ->
@@ -118,13 +118,13 @@ define roadwarrior::client (
   # the annoying mv file2 file1 dance.
 
   # Insert CA cert
-  exec { 'insert_ca_cert':
+  exec { "insert_ca_cert_${vpn_client}":
     command => "awk '/%%CERT_CA_DER%%/ { system ( \"base64 ${cert_dir}/cacerts/strongswanCert.der\" ) } !/%%CERT_CA_DER%%/ { print; }' ${cert_dir}/dist/${vpn_client}/ios-${vpn_client}.mobileconfig | sponge ${cert_dir}/dist/${vpn_client}/ios-${vpn_client}.mobileconfig",
     onlyif  => "grep -q '%%CERT_CA_DER%%' ${cert_dir}/dist/${vpn_client}/ios-${vpn_client}.mobileconfig",
   } ->
 
   # PKCS12 (Client cert + key)
-  exec { 'insert_pkcs12':
+  exec { "insert_pkcs12_${vpn_client}":
     command => "awk '/%%CERT_PKCS12%%/ { system ( \"base64 ${cert_dir}/dist/${vpn_client}/${vpn_client}.p12\" ) } !/%%CERT_PKCS12%%/ { print; }' ${cert_dir}/dist/${vpn_client}/ios-${vpn_client}.mobileconfig | sponge ${cert_dir}/dist/${vpn_client}/ios-${vpn_client}.mobileconfig",
     onlyif  => "grep -q '%%CERT_PKCS12%%' ${cert_dir}/dist/${vpn_client}/ios-${vpn_client}.mobileconfig",
   }
