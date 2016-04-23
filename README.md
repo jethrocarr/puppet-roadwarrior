@@ -43,13 +43,9 @@ earlier OS releases didn't ship with IKEv2 VPN support. The following are
 known minimum versions for working clients:
 
 * iOS 9+
+* MacOS 10.11 (El Capitan)
 
 
-The following are confirmed as not working:
-
-* MacOS 10.11 (El Capitan) - This should work, so we're debugging the config
-  further, it could be that MacOS is buggy or needs some "special love" in the
-  configuration files.
 
 
 # Usage
@@ -166,21 +162,31 @@ conditions are appropiate.
 
 ## MacOS Clients
 
-WARNING: MacOS clients not currently working properly, need to spend some time
-debugging this further. This warning will be removed once we validate.
+The MacOS process is a bit fiddly, make sure you carefully follow the instructions,
+especially in regard to trusting the certs. Also ensure you are on MacOS 10.11
+(El Capitan) or later.
 
-1. Import the `.p12` file generated for the client (eg "examplephone.p12").
+1. Import the `.p12` file generated for the client (eg "examplephone.p12"). Find
+   the newly imported cert inside keychain access and make it as "Always Trusted".
 
-2. Configure via `System Preferences -> Network` by adding a new VPN interface
-   and selecting IKEv2. You must then:
+2. Import the `CACert.pem` file generate for the client. Go into Keychain Access
+   and find the CA under "Certificates". Now mark it as "Always Trusted".
 
-3. Populate `Server Address` and `Remote ID` with the VPN Name you're using and
+3. These first two steps are CRITICAL, if either the client cert or CA cert are not
+   trusted, the VPN will fail to connect without any visible message.
+
+4. Access `System Preferences -> Network` and add a new VPN interface, making sure to
+   select IKEv2 specifically.
+
+5. Populate `Server Address` and `Remote ID` with the VPN Name you're using and
    set the local ID to `client@vpnname` where client is the name of the client
    resource defined (eg "examplephone" and vpnname is the main `vpn_name`
    defined for the `roadwarrior` class.
 
-4. Under `Authentication Settings` select certificate authentication using the 
+6. Under `Authentication Settings` select certificate authentication using the 
    one we imported before.
+
+7. Establish your first connection and enjoy!
 
 
 
