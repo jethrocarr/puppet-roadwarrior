@@ -58,6 +58,10 @@ class roadwarrior (
     path => '/bin:/sbin:/usr/bin:/usr/sbin',
    }
 
+  # Check if the VPN name differs from the CA cert. If so, the admin has probably
+  # messed with $vpn_name and now it doens't reflect reality.
+  # TODO: write this validation
+
   # Generate CA key & cert
   exec { 'generate_ca_key':
     command  => "ipsec pki --gen --type rsa --size 4096 --outform pem > ${cert_dir}/private/strongswanKey.pem",

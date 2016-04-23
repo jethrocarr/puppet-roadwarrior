@@ -69,7 +69,16 @@ be re-generated.
 
 # Client Configuration
 
-TBD.
+Simply define each client you wish to use, in addition to the main `roadwarrior`
+class above.
+
+    roadwarrior::client { 'myiphone': }
+    roadwarrior::client { 'bobiphone': }
+    roadwarrior::client { 'androidftw': }
+
+Generally you will not want to adjust any other params per client and leave
+them on the defaults. This module will export out the certs in a range of
+formats and sets up a mobile config file.
 
 
 # Development
