@@ -69,6 +69,8 @@ be re-generated.
 
 # Client Configuration
 
+## General Configuration
+
 Simply define each client you wish to use, in addition to the main `roadwarrior`
 class above.
 
@@ -95,15 +97,62 @@ you are on WiFi network "home" or "bach" which presumably don't require the VPN.
       ondemand_connect       => true,
       ondemand_ssid_excludes => ['home', 'bach'],
     }
- 
+
+The module will build and collect certs and configuration for your clients in
+`/etc/ipsec.d/dist/`, for example:
+
+    find /etc/ipsec.d/dist/
+    /etc/ipsec.d/dist/
+    /etc/ipsec.d/dist/examplephone
+    /etc/ipsec.d/dist/examplephone/CACert.der
+    /etc/ipsec.d/dist/examplephone/CACert.pem
+    /etc/ipsec.d/dist/examplephone/ios-examplephone.mobileconfig
+    /etc/ipsec.d/dist/examplephone/examplephone.p12
+    /etc/ipsec.d/dist/examplephone/examplephoneCert.pem
+    /etc/ipsec.d/dist/examplephone/examplephoneKey.pem
+
+
+The purpose of these various files are:
+
+* `ios-examplephone.mobileconfig` - A "ready to import" configuration for iOS
+  devices that includes the CA and PKCS12 certs, along with all the config
+  that you might want.
+
+* `examplephone.p12` - A PCKS/P12 file that includes the client's cert and key
+   capable of being imported to most devices for configuring. If your device
+   can't import, try renaming from `.p12` to `.pfx` and see if that helps.
+
+* `examplephone(Cert|Key).pem` - PEM format client cert and key. Try these if
+   your device refuses to import the .p12 file above.
+
+* `CACert.(pem|der)` - The CA certificate. Many devices will want this to
+   validate the authenticity of your VPN endpoint. If your device can't import
+   the PEM, try the DER file.
+
+
+## iOS Clients
+
+To configure iOS clients (version 9+) email the `.mobileconfig` file that has
+been generated to the phone. Note that Apple Mail and the stock Mail app handle
+this properly, but third party clients (on sender or reciever) possibly may fail
+to set the weird content types needed by iOS. Sharing via iCloud drive doesn't
+seem to work properly (unable to import from iCloud on iOS end).
+
+From the mail client, tap and import the file and follow the prompts to import
+the certificate. Once complete, there will now be a VPN you can turn on/off in
+the settings screen.
+
+If ondemand has been enabled, the VPN should automatically connect if all
+conditions are appropiate.
+
 
 
 # Development
 
-Contributions in the form of Pull Requests are always welcome. However please
-keep in mind the goal of this module is to support road warrior style setups
-rather than being a general all-purpose StrongSwan/IKEv2 VPN configuration
-module.
+Contributions in the form of Pull Requests (or beer donations) are always
+welcome. However please keep in mind the goal of this module is to support
+road warrior style setups rather than being a general all-purpose
+StrongSwan/IKEv2 VPN configuration module.
 
 
 # License
