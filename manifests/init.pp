@@ -26,7 +26,7 @@ class roadwarrior (
   # defined elsewhere.
   ensure_resource('package', [$packages_strongswan], {
     'ensure' => 'installed',
-    'before' => [ Service[$service_strongswan], File['/etc/ipsec.conf'] ]
+    'before' => [ Service[$service_strongswan], File['/etc/ipsec.conf'], File['/etc/ipsec.secrets'] ]
   })
 
   # We need to define the service and make sure it's set to launch at startup.
@@ -110,10 +110,11 @@ class roadwarrior (
 
   # Create a directory for the distributable packages
   file { "${cert_dir}/dist":
-    ensure => directory,
-    mode   => '0600',
-    owner  => 'root',
-    group  => 'root',
+    ensure  => directory,
+    mode    => '0600',
+    owner   => 'root',
+    group   => 'root',
+    require => File['/etc/ipsec.conf'],
   }
 
 
