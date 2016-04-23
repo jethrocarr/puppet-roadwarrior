@@ -99,6 +99,23 @@ define roadwarrior::client (
     group   => 'root',
     replace => false,  # first generation, sticks
     content =>  template('roadwarrior/ios.mobileconfig.erb'),
+  } ->
+
+
+  # We use awk to do some evil where we read in the certs, turn to base64 (using
+  # base64 command from coreutils) and replace the placeholders in the mobile
+  # config file.
+
+  # Insert CA cert
+  exec { 'insert_ca_cert':
+    command => "awk '/%%CERT_CA_DER%%/ { system ( \"base64 ${cert_dir}/cacerts/strongswanCert.der\" ) } !/%%CERT_CA_DER%%/ { print; }' ${cert_dir}/dist/${vpn_client}/ios-${vpn_client}.mobileconfig",
+    onlyif  => "grep -q '%%CERT_CA_DER%%' ${cert_dir}/dist/${vpn_client}/ios-${vpn_client}.mobileconfig",
+  } ->
+
+  # PKCS12 (Client cert + key)
+  exec { 'insert_pkcs12':
+    command => "awk '/%%CERT_PKCS12%%/ { system ( \"base64 ${cert_dir}/dist/${vpn_client}/${vpn_client}.p12\" ) } !/%%CERT_PKCS12%%/ { print; }' ${cert_dir}/dist/${vpn_client}/ios-${vpn_client}.mobileconfig",
+    onlyif  => "grep -q '%%CERT_PKCS12%%' ${cert_dir}/dist/${vpn_client}/ios-${vpn_client}.mobileconfig",
   }
 
 
