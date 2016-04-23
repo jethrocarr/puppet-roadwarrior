@@ -3,12 +3,13 @@
 # along with an iOS compatible .mobileconfig file for easy import on iOS
 
 define roadwarrior::client (
-    $vpn_client    = $name,
-    $vpn_name      = $::roadwarrior::vpn_name,
-    $cert_dir      = $::roadwarrior::cert_dir,
-    $cert_lifespan = $::roadwarrior::cert_lifespan,
-    $cert_password = $::roadwarrior::cert_password,
-
+    $vpn_client              = $name,
+    $ondemand_connect        = false,
+    $ondemand_ssid_excludes  = undef,
+    $vpn_name                = $::roadwarrior::vpn_name,
+    $cert_dir                = $::roadwarrior::cert_dir,
+    $cert_lifespan           = $::roadwarrior::cert_lifespan,
+    $cert_password           = $::roadwarrior::cert_password,
   ) {
 
   # The base class must be included first because it is used by parameter defaults
@@ -22,6 +23,14 @@ define roadwarrior::client (
   Exec {
     path => '/bin:/sbin:/usr/bin:/usr/sbin',
   }
+
+  # Generate V4 UUIDs for .mobileconfig files
+  # TODO - Would this be better in the template itself?
+  $uuid_payload_pkcs12    = roadwarrior_uuid()
+  $uuid_payload_vpnconfig = roadwarrior_uuid()
+  $uuid_payload_cacert    = roadwarrior_uuid()
+  $uuid_payload_id        = roadwarrior_uuid()
+  $uuid_payload_uuid      = roadwarrior_uuid()
 
 
   ## Generate the client key/cert
@@ -67,11 +76,30 @@ define roadwarrior::client (
   exec { 'generate_client_pkcs12':
     command => "openssl pkcs12 -export -inkey ${cert_dir}/private/client_${vpn_client}Key.pem -in ${cert_dir}/certs/client_${vpn_client}Cert.pem -name \"${vpn_client}\" -certfile ${cert_dir}/cacerts/strongswanCert.pem -caname \"${vpn_name} CA\" -password \"pass:${cert_password}\" -out ${cert_dir}/dist/${vpn_client}/${vpn_client}.p12",
     creates => "${cert_dir}/dist/${vpn_client}/${vpn_client}.p12",
+  } ->
+
+
+  # Generate iOS mobileconfig. This is a bit tricky - we want to take this template and
+  # populate it on disk, however we also need to copy the data from the certs into this
+  # configuration.
+  #
+  # Hence we use Puppet file/template to generate the file with all the VPN
+  # specific configuration and endpoints, but leave placeholders for the cert data which
+  # we then populate with Exec.
+  #
+  # All this means that the mobileconfig won't regenerate if the template changes - you'll
+  # have to rm -f the file on disk if you want to generate all new mobile configs for your
+  # environment.
+
+  # Generate template file (minus certs)
+  file { "${cert_dir}/dist/${vpn_client}/ios-${vpn_client}.mobileconfig":
+    ensure  => 'file',
+    mode    => '0600',
+    owner   => 'root',
+    group   => 'root',
+    replace => false,  # first generation, sticks
+    content =>  template('roadwarrior/ios.mobileconfig.erb'),
   }
-
-
-  # Generate iOS mobileconfig
-  # TODO: Write this
 
 
 }
