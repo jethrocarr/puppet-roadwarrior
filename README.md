@@ -34,6 +34,7 @@ every possible StrongSwan option, it's not.
 Tested and confirmed on:
 
 * Debian 8 [Server]
+* Ubuntu 16.04 [Server]
 * iOS 9 [Client]
 
 
@@ -41,7 +42,7 @@ The VPN *should* work on any OS released in 2015-2016 onwards, but many
 earlier OS releases didn't ship with IKEv2 VPN support. The following are
 known minimum versions for working clients:
 
-* iOS - minimum of 9
+* iOS 9+
 
 
 The following are confirmed as not working:
@@ -69,6 +70,15 @@ It is recommended that you consider backing up the `/etc/ipsec.d` directory. If
 replacing/autoscaling the server running your roadwarror VPN, you will want to
 populate the directory with the same data across the fleet, otherwises certs would
 be re-generated.
+
+You will want to make sure your server can be reached by the clients on UDP port
+500 and UDP port 4500. If you use the managed firewall, this will be configured
+for you with iptables (using puppetlabs/firewall module).
+
+Currently all traffic will egress your VPN server with an IP from the `vpn_range`
+defined above without any masqurading (NAT), so it's important that the
+destination servers on your network know how to route back to the VPN range via
+the server. (TODO: add a NAT option to this module?)
 
 
 
