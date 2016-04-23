@@ -90,7 +90,7 @@ Most of the params you won't need to set, however the following two are useful.
 By default the iOS configuration will be "connect on request" only, however you
 can adjust to ensure the VPN always automatically establishes a connection
 
-    roadwarror::client { 'examplephone':
+    roadwarrior::client { 'examplephone':
       ondemand_connect       => false,
       ondemand_ssid_excludes => undef,
     }
@@ -98,7 +98,7 @@ can adjust to ensure the VPN always automatically establishes a connection
 For example, to generate configuration for iOS that will always reconnect unless
 you are on WiFi network "home" or "bach" which presumably don't require the VPN.
 
-    roadwarror::client { 'examplephone':
+    roadwarrior::client { 'examplephone':
       ondemand_connect       => true,
       ondemand_ssid_excludes => ['home', 'bach'],
     }
