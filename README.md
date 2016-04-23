@@ -80,6 +80,8 @@ defined above without any masqurading (NAT), so it's important that the
 destination servers on your network know how to route back to the VPN range via
 the server. (TODO: add a NAT option to this module?)
 
+Refer to `manifests/params.pp` for the full list of configurable options and what
+they mean.
 
 
 # Client Configuration
@@ -135,7 +137,8 @@ The purpose of these various files are:
 
 * `examplephone.p12` - A PCKS/P12 file that includes the client's cert and key
    capable of being imported to most devices for configuring. If your device
-   can't import, try renaming from `.p12` to `.pfx` and see if that helps.
+   can't import, try renaming from `.p12` to `.pfx` and see if that helps. The
+   default password on this file is `password`.
 
 * `examplephone(Cert|Key).pem` - PEM format client cert and key. Try these if
    your device refuses to import the .p12 file above.
