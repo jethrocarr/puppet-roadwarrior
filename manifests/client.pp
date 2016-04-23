@@ -71,6 +71,16 @@ define roadwarrior::client (
     creates => "${cert_dir}/dist/${vpn_client}/${vpn_client}Key.pem"
   } ->
 
+  exec { 'dist_ca_cert_pem':
+    command => "cp ${cert_dir}/cacerts/strongswanCert.pem ${cert_dir}/dist/${vpn_client}/CACert.pem",
+    creates => "${cert_dir}/dist/${vpn_client}/CACert.pem"
+  } ->
+
+  exec { 'dist_ca_cert_der':
+    command => "cp ${cert_dir}/cacerts/strongswanCert.der ${cert_dir}/dist/${vpn_client}/CACert.der",
+    creates => "${cert_dir}/dist/${vpn_client}/CACert.der"
+  } ->
+
   # Whilst not needed by StrongSwan itself, generate a PKCS12 (.p12) file with the
   # combined cert and key, using $cert_password as the container password.
   exec { 'generate_client_pkcs12':
