@@ -1,0 +1,54 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    CFPropertyList (2.2.8)
+    diff-lcs (1.2.5)
+    facter (2.4.4)
+      CFPropertyList (~> 2.2.6)
+    hiera (3.0.1)
+      json_pure
+    json_pure (1.8.3)
+    metaclass (0.0.4)
+    mocha (1.1.0)
+      metaclass (~> 0.0.1)
+    puppet (4.2.2)
+      facter (> 2.0, < 4)
+      hiera (>= 2.0, < 4)
+      json_pure
+    puppet-lint (1.1.0)
+    puppet-syntax (2.0.0)
+      rake
+    puppetlabs_spec_helper (0.10.3)
+      mocha
+      puppet-lint
+      puppet-syntax
+      rake
+      rspec-puppet
+    rake (10.4.2)
+    rspec (3.4.0)
+      rspec-core (~> 3.4.0)
+      rspec-expectations (~> 3.4.0)
+      rspec-mocks (~> 3.4.0)
+    rspec-core (3.4.1)
+      rspec-support (~> 3.4.0)
+    rspec-expectations (3.4.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
+    rspec-mocks (3.4.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
+    rspec-puppet (2.2.0)
+      rspec
+    rspec-support (3.4.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  facter (>= 1.7.0)
+  puppet (>= 3.3)
+  puppet-lint (>= 1.0.0)
+  puppetlabs_spec_helper (>= 0.8.2)
+
+BUNDLED WITH
+   1.10.6
