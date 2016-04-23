@@ -104,7 +104,8 @@ define roadwarrior::client (
 
   # We use awk to do some evil where we read in the certs, turn to base64 (using
   # base64 command from coreutils) and replace the placeholders in the mobile
-  # config file.
+  # config file. We use sponge (from moreutils) to buffer whilst we write to avoid
+  # the annoying mv file2 file1 dance.
 
   # Insert CA cert
   exec { 'insert_ca_cert':
