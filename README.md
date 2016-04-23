@@ -25,7 +25,8 @@ every possible StrongSwan option, it's not.
 * Extremely simple configuration.
 * IKEv2 using StrongSwan.
 * Certificate-based authentication with automatic setup of CA & certs.
-* Generate client certs
+* Generates client certs for you
+* Generates `.mobileconfig` files for easy import on iOS devices.
 
 
 # Compatibility
