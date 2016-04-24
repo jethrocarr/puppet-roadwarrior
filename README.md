@@ -37,6 +37,7 @@ Tested and confirmed on:
 * Ubuntu 16.04 [Server]
 * iOS 9.3.1 [Client]
 * MacOS X 10.11.4 [Client]
+* Android 5 w/ StrongSwan [Client]
 
 
 The VPN *should* work on any OS released in 2015-2016 onwards, but many
@@ -45,6 +46,7 @@ known minimum versions for working clients:
 
 * iOS 9+
 * MacOS X 10.11 (El Capitan)
+* Android 4.4.3+ (with use of third party StrongSwan client)
 
 
 
@@ -191,6 +193,26 @@ especially in regard to trusting the certs. Also ensure you are on MacOS 10.11
 
 7. Establish your first connection and enjoy!
 
+
+## Android Clients
+
+IKEv2 isn't supported natively on Android yet, so you'll have to install the
+StrongSwan Android app. If you're on Android versions below 4.4.3, the support
+is buggy and you'll probably need to consider another option like OpenVPN or a
+newer OS/phone instead.
+
+1. Import the `.p12` certificate package (can be done via most email clients)
+   into the OS cert/key store.
+
+2. Install the "StrongSwan" VPN client from the Play store.
+
+3. Add a new VPN using type "IKEv2 Certificate".
+
+The StrongSwan client does not appear to have ondemand logic like the iOS
+native client, which means the VPN will either have to be connected when
+required, or left running at all times - which could cause issues if you push
+routes from home/work down the VPN and then connect to the WiFi at those
+locations...
 
 
 
