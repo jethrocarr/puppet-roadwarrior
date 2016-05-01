@@ -31,7 +31,7 @@ conn %default
     left=%any
 
     # Network ranges to push to the device (split routing)
-    leftsubnet=<%= @vpn_route %>
+    leftsubnet=<%= @vpn_route_v4 %>
 
     # Use certificate-based authentication
     leftid=<%= @vpn_name -%>      # CN of the VPN server for cert authentication
@@ -44,7 +44,7 @@ conn %default
     # Network range to assign to VPN devices. This must be routable back to
     # the VPN server from anything on the network if a masquerade rule is not
     # configured.
-    rightsourceip=<%= @vpn_range %>
+    rightsourceip=<%= @vpn_range_v4 %>
 
     # Automatically setup OS routes for VPN ranges
     auto=add

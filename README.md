@@ -61,8 +61,8 @@ as the IP range to route back to the client devices.
        manage_firewall_v4 => true,
        manage_firewall_v6 => true,
        vpn_name           => 'vpn.example.com',
-       vpn_range          => '10.10.10.0/24',
-       vpn_route          => '192.168.0.0/16',
+       vpn_range_v4       => '10.10.10.0/24',
+       vpn_route_v4       => '192.168.0.0/16',
      }
 
 It is recommended that you consider backing up the `/etc/ipsec.d` directory. If
@@ -74,7 +74,7 @@ You will want to make sure your server can be reached by the clients on UDP port
 500 and UDP port 4500. If you use the managed firewall, this will be configured
 for you with iptables (using puppetlabs/firewall module).
 
-Currently all traffic will egress your VPN server with an IP from the `vpn_range`
+Currently all traffic will egress your VPN server with an IP from the `vpn_range_v4`
 defined above without any masqurading (NAT), so it's important that the
 destination servers on your network know how to route back to the VPN range via
 the server. (TODO: add a NAT option to this module?)

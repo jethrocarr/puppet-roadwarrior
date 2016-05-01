@@ -26,10 +26,10 @@ class roadwarrior::params {
   $vpn_name = $::fqdn
 
   # Default IP range for the VPN clients to use
-  $vpn_range = '10.10.10.0/24'
+  $vpn_range_v4 = '10.10.10.0/24'
 
   # Route to push through to the clients
-  $vpn_route = '192.168.0.0/16'
+  $vpn_route_v4 = '192.168.0.0/16'
 
   # Debug logging - Enabled additional log information
   $debug_logging = true
