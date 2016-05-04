@@ -82,6 +82,19 @@ the server. (TODO: add a NAT option to this module?)
 Refer to `manifests/params.pp` for the full list of configurable options and what
 they mean.
 
+If you enable `manage_firewall_v6`, you may also want to include the following
+on your server if you rely on Route Advertisement rather than static IPv6
+addresses, otherwise that autodiscovery will cease to function. The following is
+an example of re-enabling RA for int `eth0`.
+
+    # By default, IPv6 will ignore RA if forwarding is on which can cause what
+    # looks like breakage of autodiscovery of IPv6 on your interfaces. The following
+    # will ensure eth0 still accepts RAs, even if forwarding is enabled.
+    
+    sysctl { 'net.ipv6.conf.eth0.accept_ra':
+      value => '2',
+    }
+
 
 # Client Configuration
 
