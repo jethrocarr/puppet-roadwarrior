@@ -228,6 +228,46 @@ routes from home/work down the VPN and then connect to the WiFi at those
 locations...
 
 
+# But I don't use Puppet! How can I use this?
+
+If you want to use a different configuration manager (eg Ansible or Chef),
+you'll have to port this module across, I can't help you wish that.
+
+However if you just want to run it like a dumb script since you don't use
+any configuration manage, you can do so by installing Puppet, installing
+the module and then running your config directly from a file.
+
+The following is an example of how to do this:
+
+    apt-get install puppet
+    
+    puppet module install jethrocarr/roadwarrior
+    
+    cat > /root/configure_vpn.pp << EOF
+    class { 'roadwarrior':
+       manage_firewall_v4 => false,
+       manage_firewall_v6 => false,
+       vpn_name           => 'vpn.example.com',
+       vpn_range_v4       => '10.10.10.0/24',
+       vpn_route_v4       => '192.168.0.0/16',
+    }
+    
+    roadwarrior::client { 'myiphone':
+      ondemand_connect       => true,
+      ondemand_ssid_excludes => ['wifihouse'],
+   }
+
+    roadwarrior::client { 'android': }
+    EOF
+    
+    # Edit configuration to suit requirements.
+    # vim /root/configure_vpn.pp
+    
+    # Apply configuration. You can re-run this if you make changes to the above file
+    # in future (such as adding new clients).
+    puppet apply /root/configure_vpn.pp
+
+
 
 # Development
 
