@@ -255,8 +255,8 @@ The following is an example of how to do this:
     roadwarrior::client { 'myiphone':
       ondemand_connect       => true,
       ondemand_ssid_excludes => ['wifihouse'],
-   }
-
+    }
+    
     roadwarrior::client { 'android': }
     EOF
     
