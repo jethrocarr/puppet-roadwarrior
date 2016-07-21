@@ -15,7 +15,6 @@ class roadwarrior (
   $cert_password        = $::roadwarrior::params::cert_password,
 ) inherits ::roadwarrior::params {
 
-
   # Compat checks
   if ($::operatingsystem != "Debian" and $::operatingsystem != "Ubuntu") {
     fail("Sorry, only Debian or Ubuntu distributions are supported by the roadwarrior module at this time. PRs welcome")
@@ -116,8 +115,6 @@ class roadwarrior (
     group   => 'root',
     require => File['/etc/ipsec.conf'],
   }
-
-
 
 }
 
