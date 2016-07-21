@@ -18,7 +18,7 @@ define roadwarrior::client (
   #if ! defined(Class['roadwarrior']) {
   #  fail('You must include the roadwarrior base class before defining any clients')
   #}
- 
+
   # Handy hack - set the path for all Execs
   Exec {
     path => '/bin:/sbin:/usr/bin:/usr/sbin',
