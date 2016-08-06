@@ -9,12 +9,14 @@ class roadwarrior (
   $vpn_name             = $::roadwarrior::params::vpn_name,
   $vpn_range_v4         = $::roadwarrior::params::vpn_range_v4,
   $vpn_route_v4         = $::roadwarrior::params::vpn_route_v4,
+  $vpn_dns_servers      = $::roadwarrior::params::vpn_dns_servers,
   $debug_logging        = $::roadwarrior::params::debug_logging,
   $cert_dir             = $::roadwarrior::params::cert_dir,
   $cert_lifespan        = $::roadwarrior::params::cert_lifespan,
   $cert_password        = $::roadwarrior::params::cert_password,
 ) inherits ::roadwarrior::params {
 
+  validate_string( $vpn_dns_servers )
 
   # Compat checks
   if ($::operatingsystem != "Debian" and $::operatingsystem != "Ubuntu") {

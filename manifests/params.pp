@@ -31,6 +31,9 @@ class roadwarrior::params {
   # Route to push through to the clients
   $vpn_route_v4 = '192.168.0.0/16'
 
+  # DNS Servers that will override those already configured on clients
+  $vpn_dns_servers = ''
+
   # Debug logging - Enabled additional log information
   $debug_logging = true
 

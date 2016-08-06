@@ -37,7 +37,7 @@ conn %default
     leftid=<%= @vpn_name -%>      # CN of the VPN server for cert authentication
     leftcert=vpnHostCert.pem      # The cert file to use for the VPN server (looks in /etc/ipsec.d/certs/)
     leftsendcert=always           # Send the CA cert in the connection request
-    
+
     # Any device from anywhere can attempt to establish a connection
     right=%any
 
@@ -45,6 +45,11 @@ conn %default
     # the VPN server from anything on the network if a masquerade rule is not
     # configured.
     rightsourceip=<%= @vpn_range_v4 %>
+
+    <% if @vpn_dns_servers.length > 0 -%>
+    # DNS Servers that will override those already configured on clientsAny device from anywhere can attempt to establish a connection
+    rightdns=<%= @vpn_dns_servers %>
+    <% end -%>
 
     # Automatically setup OS routes for VPN ranges
     auto=add
@@ -78,4 +83,3 @@ conn CiscoIPSec
     rightauth=pubkey
     rightauth2=xauth
     auto=add
-
