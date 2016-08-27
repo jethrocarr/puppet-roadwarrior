@@ -26,8 +26,8 @@ class roadwarrior (
   # Ensure resources is brilliant witchcraft, we can install all the StrongSwan
   # dependencies in a single run and avoid double-definitions if they're already
   # defined elsewhere.
-  ensure_resource('package', [$packages_strongswan], {
-    'ensure' => 'installed',
+  ensure_packages([$packages_strongswan], {
+    'ensure' => 'present',
     'before' => [ Service[$service_strongswan], File['/etc/ipsec.conf'], File['/etc/ipsec.secrets'] ]
   })
 
