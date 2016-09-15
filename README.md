@@ -36,6 +36,7 @@ Tested and confirmed on:
 * Debian 8 [Server]
 * Ubuntu 16.04 [Server]
 * iOS 9.3.1 [Client]
+* iOS 10.0.1 [Client]
 * MacOS X 10.11.4 [Client]
 * Android 5 w/ StrongSwan [Client]
 
