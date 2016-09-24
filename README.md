@@ -232,10 +232,10 @@ locations...
 # But I don't use Puppet! How can I use this?
 
 If you want to use a different configuration manager (eg Ansible or Chef),
-you'll have to port this module across, I can't help you wish that.
+you'll have to port this module across, I can't help you with that.
 
 However if you just want to run it like a dumb script since you don't use
-any configuration manage, you can do so by installing Puppet, installing
+any configuration manager, you can do so by installing Puppet, installing
 the module and then running your config directly from a file.
 
 The following is an example of how to do this:
