@@ -3,10 +3,11 @@
 
 
 config setup
-    # Ideally you wouldn't want to allow non-unique IDs (eg one cert == one device) however
-    # some devices do dual-tunnel functionality by establishing a VPN connection via cellular
-    # and again on WiFi to allow smoother switching. To support these, we don't force uniqueness.
-    uniqueids = never
+    # Setting this to "yes" rather than "never" could cause issues with some
+    # devices that maintain dual tunnels (eg one on WiFi, one on 4G) but it's
+    # needed to ensure compatibility with iOS 10 due to how it
+    # drops/re-establishes tunnels.
+    uniqueids = yes
 
 <% if @debug_logging -%>
     # Increase the debugging level - recommended if having trouble getting things to work.
