@@ -133,8 +133,6 @@ on battery)
       ondemand_cellular_excludes => true,
     }
 
-
-
 The module will build and collect certs and configuration for your clients in
 `/etc/ipsec.d/dist/`, for example:
 
