@@ -6,6 +6,7 @@ define roadwarrior::client (
     $vpn_client              = $name,
     $ondemand_connect        = false,
     $ondemand_ssid_excludes  = undef,
+    $ondemand_cellular_excludes  = false,
     $vpn_name                = $::roadwarrior::vpn_name,
     $cert_dir                = $::roadwarrior::cert_dir,
     $cert_lifespan           = $::roadwarrior::cert_lifespan,
