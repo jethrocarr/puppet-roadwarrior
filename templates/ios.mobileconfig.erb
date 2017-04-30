@@ -96,6 +96,14 @@
 <% end -%>
 					</array>
 				</dict>
+<% if @ondemand_cellular_excludes -%>
+				<dict>
+					<key>Action</key>
+					<string>Disconnect</string>
+					<key>InterfaceTypeMatch</key>
+                       			<string>Cellular</string>
+				</dict>
+<% end -%>						
 <% end -%>
 				<dict>
 					<key>Action</key>

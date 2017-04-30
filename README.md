@@ -111,21 +111,26 @@ class above.
 This module will export out the certs in a range of formats and sets up a mobile
 config file.
 
-Most of the params you won't need to set, however the following two are useful.
+Most of the params you won't need to set, however the following three are useful.
 By default the iOS configuration will be "connect on request" only, however you
 can adjust to ensure the VPN always automatically establishes a connection
 
     roadwarrior::client { 'examplephone':
-      ondemand_connect       => false,
-      ondemand_ssid_excludes => undef,
+      ondemand_connect           => false,
+      ondemand_ssid_excludes     => undef,
+      ondemand_cellular_excludes => false,
     }
 
 For example, to generate configuration for iOS that will always reconnect unless
 you are on WiFi network "home" or "bach" which presumably don't require the VPN.
+Additionally, you can specify that you trust your cellular provider and connection
+on cellular network don't require the VPN (additionally, this gives a positive effect
+on battery)
 
     roadwarrior::client { 'examplephone':
       ondemand_connect       => true,
       ondemand_ssid_excludes => ['home', 'bach'],
+      ondemand_cellular_excludes => true,
     }
 
 The module will build and collect certs and configuration for your clients in
