@@ -1,6 +1,6 @@
 {
   "name": "jethrocarr-roadwarrior",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "jethrocarr",
   "summary": "Configures a road warrior style IKEv2 VPN with StrongSwan and cert-based authentication ideal for mobile devices",
   "license": "Apache-2.0",
