@@ -10,7 +10,6 @@ class roadwarrior (
   $vpn_range_v4         = $::roadwarrior::params::vpn_range_v4,
   $vpn_route_v4         = $::roadwarrior::params::vpn_route_v4,
   $vpn_dns_servers      = $::roadwarrior::params::vpn_dns_servers,
-  $vpn_behind_firewall  = $::roadwarrior::params::vpn_behind_firewall,
   $debug_logging        = $::roadwarrior::params::debug_logging,
   $cert_dir             = $::roadwarrior::params::cert_dir,
   $cert_lifespan        = $::roadwarrior::params::cert_lifespan,
@@ -70,17 +69,6 @@ class roadwarrior (
     include ::roadwarrior::firewall
   }
 
-  # Enable ip forwarding if the vpn is behind a firewall
-  if ($vpn_behind_firewall){
-    sysctl { "net.ipv4.ip_forward":
-      ensure => present,
-      value  => "1",
-    }
-    sysctl {"net.ipv6.conf.all.forwarding":
-      ensure => present,
-      value => "1",
-    }
-  }
 
   # Handy hack - set the path for all Execs
   Exec {
