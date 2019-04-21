@@ -7,7 +7,7 @@ class roadwarrior::params {
   # TODO: This will be Debian specific
   # Define all the packages we need for StrongSwan and the plugins (in particular EAP-TLS).
   # Note moreutils is there to provide additional tools to help with generating client config files.
-  $packages_strongswan = ['strongswan', 'strongswan-pki', 'libstrongswan-standard-plugins', 'libstrongswan-extra-plugins', 'libcharon-extra-plugins', 'moreutils']
+  $packages_strongswan = ['strongswan', 'strongswan-pki', 'libstrongswan-standard-plugins', 'libstrongswan-extra-plugins', 'libcharon-extra-plugins', 'iptables-persistent', 'moreutils']
 
   # TODO: This will (probably) be Debian specific
   # Define the name of the service.
