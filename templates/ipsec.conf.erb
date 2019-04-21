@@ -48,7 +48,7 @@ conn %default
     rightsourceip=<%= @vpn_range_v4 %>
 
     <% if @vpn_dns_servers.length > 0 -%>
-    # DNS Servers that will override those already configured on clientsAny device from anywhere can attempt to establish a connection
+    # DNS Servers that will override those already configured on clients
     rightdns=<%= @vpn_dns_servers %>
     <% end -%>
 
