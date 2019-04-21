@@ -38,6 +38,7 @@ conn %default
     leftid=<%= @vpn_name -%>      # CN of the VPN server for cert authentication
     leftcert=vpnHostCert.pem      # The cert file to use for the VPN server (looks in /etc/ipsec.d/certs/)
     leftsendcert=always           # Send the CA cert in the connection request
+    leftfirewall=<% if @vpn_behind_firewall %>yes<% else %>no<% end %> # VPN server behind firewall
 
     # Any device from anywhere can attempt to establish a connection
     right=%any

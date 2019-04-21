@@ -34,6 +34,9 @@ class roadwarrior::params {
   # DNS Servers that will override those already configured on clients
   $vpn_dns_servers = ''
 
+  # Whether or not the vpn server is behind a firewall
+  $vpn_behind_firewall = false
+
   # Debug logging - Enabled additional log information
   $debug_logging = true
 
